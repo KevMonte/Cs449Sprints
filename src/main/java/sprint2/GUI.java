@@ -1,5 +1,5 @@
 package sprint2;
-import java.io.*;
+
 import javax.swing.*;
 //import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -7,14 +7,17 @@ import java.awt.*;
 
 public class GUI extends JFrame {
 	//JFrame frame = new JFrame("SOS game");
-	public JButton button2;
-	public JButton button1;
+	
 	SidePanel leftPanel;
 	SidePanel rightPanel;
 	BoardPanel boardPanel;
 	JPanel boardSizeLimiter;
 	TopPanel topPanel;
+
+	//String[] soString={"S","O"};
+	int turn=0;// 0 is red player turn, 1 is blue red player goes first, at least for now
 	public GUI() {
+		
 	
 	
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,9 +34,9 @@ public class GUI extends JFrame {
 	setTitle("SOS Game");
 	setSize(800, 600);
 	mainPanel.setLayout(borderLayoutManager);
-	leftPanel = new SidePanel("Red PLayer");
-	rightPanel = new SidePanel("Blue PLayer");
-	boardPanel= new BoardPanel(20);
+	leftPanel = new SidePanel("Red Player");
+	rightPanel = new SidePanel("Blue Player");
+	boardPanel= new BoardPanel(3);
 	boardSizeLimiter = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	topPanel = new TopPanel();
 	
@@ -61,6 +64,10 @@ public class GUI extends JFrame {
 	
 	
 	
+	}
+	public void changeTurn(){
+		if (turn==0) {turn=1;}
+		else{turn=0;}
 	}
 
 }
@@ -100,7 +107,7 @@ class BoardPanel extends JPanel {
 		boardButtons = new JButton[boardSize][boardSize];
 
 		//setSize(new Dimension(200,200));
-		setPreferredSize(new Dimension(100,100));
+		//setPreferredSize(new Dimension(100,100));
 		for (int row = 0; row < boardSize; row++) {
 			for (int col = 0; col < boardSize; col++) {
 				JButton cell= new JButton("");
@@ -111,26 +118,28 @@ class BoardPanel extends JPanel {
 		}
 	}
 }
-
+// TO DO: fix size of boardsize field, so that its not a super long box.
 class TopPanel extends JPanel{
 	JLabel sosLabel;
 	JLabel sizeLabel;
 	JRadioButton simpleButton;
 	JRadioButton generalButton;
 	ButtonGroup gamemodeButtonGroup;
+	JButton newGameButton;
 	JTextField boardSizeField;
 	public TopPanel(){
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		sosLabel= new JLabel("SOS Game Mode:");
-		sizeLabel= new JLabel("Board Size");
+		sizeLabel= new JLabel("Board Size:");
 		simpleButton= new JRadioButton("Simple",true);
 		generalButton= new JRadioButton("General");
+		newGameButton = new JButton("New Game");
 		boardSizeField = new JTextField("3",3);
 		
 
 		gamemodeButtonGroup = new ButtonGroup();
 
-		gamemodeButtonGroup.add(simpleButton);
+		gamemodeButtonGroup.add(simpleButton); 
 		gamemodeButtonGroup.add(generalButton);
 
 
@@ -141,6 +150,7 @@ class TopPanel extends JPanel{
 		add(Box.createRigidArea(new Dimension(100, 10)));
 		add(sizeLabel);
 		add(boardSizeField);
+		add(newGameButton);
 
 
 	}
