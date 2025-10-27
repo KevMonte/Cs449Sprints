@@ -6,6 +6,7 @@ public class Controller {
     private String redPlayer;
     private String bluePlayer;
     
+   
     public Controller(GUI gui){
         this.gui=gui;
 
@@ -13,6 +14,8 @@ public class Controller {
         initBoardListeners(3);
         redPlayer="S";
         bluePlayer="O";
+        
+
 
 
 
@@ -37,6 +40,7 @@ public class Controller {
         this.gui.boardPanel.setPreferredSize(new Dimension(500,500));
 
         initBoardListeners(boardSize);
+        
 
         this.gui.boardSizeLimiter.add(this.gui.boardPanel);
         this.gui.revalidate();
