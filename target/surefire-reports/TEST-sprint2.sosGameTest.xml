@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="sprint2.sosGameTest" time="0.577" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="sprint2.sosGameTest" time="0.573" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-25\bin"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\Kevin\AppData\Local\Temp\surefire5509878839928510082 2025-10-26T23-16-26_647-jvmRun1 surefire9216488305910658709tmp surefire_014815263555101182424tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\Kevin\AppData\Local\Temp\surefire14806476835353325760 2025-10-26T23-22-29_817-jvmRun1 surefire5804889639821277383tmp surefire_014617014920828188380tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Kevin\Cs449Sprints\target\test-classes;C:\Users\Kevin\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\Kevin\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\Kevin\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Kevin\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\Kevin\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Kevin\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\Kevin\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\Kevin\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -61,8 +61,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testStartNewGameWithInvalidPlayerSetup" classname="sprint2.sosGameTest" time="0.347"/>
-  <testcase name="testValidBoardSize" classname="sprint2.sosGameTest" time="0.075"/>
+  <testcase name="testStartNewGameWithInvalidPlayerSetup" classname="sprint2.sosGameTest" time="0.343"/>
+  <testcase name="testValidBoardSize" classname="sprint2.sosGameTest" time="0.073"/>
   <testcase name="testStartNewGameWithValidSetup" classname="sprint2.sosGameTest" time="0.073"/>
   <testcase name="testInvalidSmallBoardSize" classname="sprint2.sosGameTest" time="0.072"/>
 </testsuite>

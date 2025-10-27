@@ -38,6 +38,8 @@ public class Controller {
 
         this.gui.boardPanel = new BoardPanel(boardSize);
         this.gui.boardPanel.setPreferredSize(new Dimension(500,500));
+        if(this.gui.leftPanel.sButton.isSelected()){redPlayer="S"; bluePlayer="O";}
+        else{redPlayer="O"; bluePlayer="S";}
 
         initBoardListeners(boardSize);
         
