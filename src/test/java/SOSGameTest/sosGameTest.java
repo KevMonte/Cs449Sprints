@@ -1,18 +1,16 @@
-package sprint2;
+package SOSGameTest;
 
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import javax.swing.*;
-
+import view.*;
 public class sosGameTest {
     private GUI gui;
-    private Controller controller;
     
     @BeforeEach
     void setUp() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             gui = new GUI();
-            controller = new Controller(gui);
         });
     }
 
