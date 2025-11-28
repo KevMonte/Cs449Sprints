@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class SidePanel extends JPanel {
     public JLabel playerLabel;
+     public JLabel playerTypeLabel;
     public JLabel scoreLabel;
     int score=0;
 
@@ -12,6 +13,11 @@ public class SidePanel extends JPanel {
     public JRadioButton sButton;
     public JRadioButton oButton;
     public ButtonGroup soButtonGroup;
+
+    public JRadioButton computerButton;
+    public JRadioButton humanButton;
+    public ButtonGroup playerButtonGroup;
+
 
 
 
@@ -32,6 +38,21 @@ public class SidePanel extends JPanel {
 
         add(sButton);
         add(oButton);
+        add(Box.createRigidArea(new Dimension(0, 20)));
+
+        computerButton = new JRadioButton("Computer");
+        humanButton = new JRadioButton("Human", true);// both players are going to be assumed to be human at first
+        playerButtonGroup = new ButtonGroup(); 
+        playerTypeLabel= new JLabel("Type:");
+        add(playerTypeLabel);
+
+        playerButtonGroup.add(computerButton);
+        playerButtonGroup.add(humanButton);
+       
+        add(computerButton);
+        add(humanButton);
+
+
 
         scoreLabel = new JLabel("Score:" + score);
         add(scoreLabel);

@@ -11,7 +11,7 @@ public class GUI extends JFrame {
     public TopPanel topPanel;
     public BottomPanel bottomPanel;
 
-    public int turn = 0; // 0 is red player turn, 1 is blue red player goes first, at least for now
+    public int turn = 0; // 0 is red player turn, 1 is blue | red player goes first, at least for now
 
     public GUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,23 +53,7 @@ public class GUI extends JFrame {
         add(mainPanel);
     }
 
-    public void changeTurn() {
-        if (turn == 0) {
-            if(this.rightPanel.sButton.isSelected()) {
-                bottomPanel.setTurn("Blue(S) Turn", Color.BLUE);
-            } else {
-                bottomPanel.setTurn("Blue(O) Turn", Color.BLUE);
-            }
-            turn = 1;
-        } else {
-            if(this.leftPanel.sButton.isSelected()) {
-                bottomPanel.setTurn("Red(S) Turn", Color.RED);
-            } else {
-                bottomPanel.setTurn("Red(O) Turn", Color.RED);
-            }
-            turn = 0;
-        }
-    }
+    
 
     public void displayWinner(String winner) {
         JOptionPane.showMessageDialog(this, winner + " is the winner", "Game End", JOptionPane.INFORMATION_MESSAGE);
