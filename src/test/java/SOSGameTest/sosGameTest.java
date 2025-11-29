@@ -208,7 +208,7 @@ public class sosGameTest {
     }
 
     @Test
-    @DisplayName("AC8.3: computerOpponent Makes winning/point Move")
+    @DisplayName("AC8.3: computerOpponents succesfully fills board during general game")
     void testComputerOpponentsSuccesfullyCompleteGeneralGame() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             // Set up game with blue player as computer
