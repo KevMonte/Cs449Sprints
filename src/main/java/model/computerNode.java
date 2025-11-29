@@ -5,7 +5,7 @@ public class computerNode {
     public int col;
     public boolean pointMove;
 
-    public computerNode(int row, int col, boolean pointMovepe) {
+    public computerNode(int row, int col, boolean pointMove) {
         this.row = row;
         this.col = col;
         this.pointMove=pointMove;

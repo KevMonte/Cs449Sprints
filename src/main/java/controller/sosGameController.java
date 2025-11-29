@@ -24,6 +24,9 @@ public class sosGameController {
 
     private computerController redComputerController;
     private computerController blueComputerController;
+
+    boolean redComputerSelected;
+    boolean blueComputerSelected;
     
     private computerNode computerMove;
     
@@ -72,7 +75,13 @@ public class sosGameController {
         this.gui.rightPanel.setScore(0);
 
         initBoardListeners(boardSize); 
-        if(this.gui.leftPanel.computerButton.isSelected()) {
+
+        redComputerSelected = this.gui.leftPanel.computerButton.isSelected();
+        blueComputerSelected = this.gui.rightPanel.computerButton.isSelected();
+
+
+
+        if(redComputerSelected) {
             
             redComputerController = new computerController(new computerModel(redPlayer,this.gui.boardPanel.boardButtons,boardSize));
 
@@ -83,7 +92,7 @@ public class sosGameController {
 
         }
 
-        if(this.gui.rightPanel.computerButton.isSelected()) {
+        if(blueComputerSelected) {
             blueComputerController = new computerController(new computerModel(bluePlayer,this.gui.boardPanel.boardButtons,boardSize));
         }
         this.gui.boardSizeLimiter.add(this.gui.boardPanel);
@@ -148,9 +157,10 @@ public class sosGameController {
             
             changeTurn();
 
-            if(this.gui.turn == 0 && this.gui.leftPanel.computerButton.isSelected()) {
+
+            if(this.gui.turn == 0 && redComputerSelected) {
             
-            //redComputerController = new computerController(new computerModel(redPlayer,this.gui.boardPanel.boardButtons,gameModel.boardSize));
+            redComputerController = new computerController(new computerModel(redPlayer,this.gui.boardPanel.boardButtons,boardSize));
 
             computerMove = redComputerController.computerMove();
 
@@ -158,7 +168,7 @@ public class sosGameController {
             makeMove(redComputerCell,computerMove.row,computerMove.col);
 
         }
-        if(this.gui.turn == 1 && this.gui.rightPanel.computerButton.isSelected()) {
+        if(this.gui.turn == 1 && blueComputerSelected) {
             
             blueComputerController = new computerController(new computerModel(bluePlayer,this.gui.boardPanel.boardButtons,boardSize));
 
@@ -170,6 +180,25 @@ public class sosGameController {
         }
             return;
             
+        }
+        if(this.gui.turn == 0 && redComputerSelected) {
+            
+            redComputerController = new computerController(new computerModel(redPlayer,this.gui.boardPanel.boardButtons,boardSize));
+
+            computerMove = redComputerController.computerMove();
+
+            JButton redComputerCell = this.gui.boardPanel.boardButtons[computerMove.row][computerMove.col];
+            makeMove(redComputerCell,computerMove.row,computerMove.col);
+        }
+         if(this.gui.turn == 1 && blueComputerSelected) {
+            
+            blueComputerController = new computerController(new computerModel(bluePlayer,this.gui.boardPanel.boardButtons,boardSize));
+
+            computerMove = blueComputerController.computerMove();
+
+            JButton blueComputerCell = this.gui.boardPanel.boardButtons[computerMove.row][computerMove.col];
+            makeMove(blueComputerCell,computerMove.row,computerMove.col);
+
         } 
         
         

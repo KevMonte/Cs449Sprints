@@ -71,8 +71,8 @@ public class computerController {
     private computerNode pointMove(int row, int col) {
         return new computerNode(row, col, true);
     }
-     private computerNode noPointMove() {
-        return new computerNode(0, 0, false);
+     private computerNode noPointMove(int row, int col) {
+        return new computerNode(row, col, false);
     }
 
     private computerNode sCheck(int row, int col) {
@@ -141,7 +141,7 @@ public class computerController {
             }
 
         }
-        return noPointMove();
+        return noPointMove(row,col);
 
 
 
@@ -177,7 +177,7 @@ public class computerController {
                 return pointMove(row , col);
             }
         }
-        return noPointMove();
+        return noPointMove(row,col);
         
     }
     
