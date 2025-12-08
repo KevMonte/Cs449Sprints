@@ -33,6 +33,8 @@ public class sosGameController {
     private computerNode computerMove;
 
     private replayModel recordedGame;
+
+    boolean replayingGame;
     
     public sosGameController(GUI gui) {
         this.gui = gui;
@@ -62,6 +64,7 @@ public class sosGameController {
         if (boardSize < 3) {
             throw new IllegalArgumentException("Board must have a size of at least 3");
         }
+        replayingGame = false;
         this.gui.turn = 0;
         gameState = "";
 
@@ -92,7 +95,12 @@ public class sosGameController {
 
         redComputerSelected = this.gui.leftPanel.computerButton.isSelected();
         blueComputerSelected = this.gui.rightPanel.computerButton.isSelected();
+        if(gui.bottomPanel.recordCheckbox.isSelected()){
+            recordedGame = new replayModel(gameMode, boardSize, redComputerSelected, redPlayer, blueComputerSelected, bluePlayer);
+        }
+        else if(recordedGame==null){
         recordedGame = new replayModel(gameMode, boardSize, redComputerSelected, redPlayer, blueComputerSelected, bluePlayer);
+        }
 
 
 
@@ -143,7 +151,7 @@ public class sosGameController {
         if(!cell.getText().isEmpty()) {
             return;
         }
-        if(gui.bottomPanel.recordCheckbox.isSelected()) {
+        if(gui.bottomPanel.recordCheckbox.isSelected() && !replayingGame){
             recordedGame.recordMove(row, col);
         }
         if(this.gui.turn == 0) {
@@ -179,7 +187,7 @@ public class sosGameController {
             changeTurn();
 
 
-            if(this.gui.turn == 0 && redComputerSelected) {
+            if(this.gui.turn == 0 && redComputerSelected && !replayingGame) {
             
             redComputerController = new computerController(new computerModel(redPlayer,this.gui.boardPanel.boardButtons,boardSize));
 
@@ -189,7 +197,7 @@ public class sosGameController {
             makeMove(redComputerCell,computerMove.row,computerMove.col);
 
         }
-        if(this.gui.turn == 1 && blueComputerSelected) {
+        if(this.gui.turn == 1 && blueComputerSelected && !replayingGame) {
             
             blueComputerController = new computerController(new computerModel(bluePlayer,this.gui.boardPanel.boardButtons,boardSize));
 
@@ -202,7 +210,7 @@ public class sosGameController {
             return;
             
         }
-        if(this.gui.turn == 0 && redComputerSelected) {
+        if(this.gui.turn == 0 && redComputerSelected&& !replayingGame) {
             
             redComputerController = new computerController(new computerModel(redPlayer,this.gui.boardPanel.boardButtons,boardSize));
 
@@ -212,7 +220,7 @@ public class sosGameController {
             makeMove(redComputerCell,computerMove.row,computerMove.col);
 
         }
-         if(this.gui.turn == 1 && blueComputerSelected) {
+         if(this.gui.turn == 1 && blueComputerSelected && !replayingGame) {
             
             blueComputerController = new computerController(new computerModel(bluePlayer,this.gui.boardPanel.boardButtons,boardSize));
 
@@ -236,6 +244,7 @@ public class sosGameController {
         if(recordedGame.fullGameRecorded==false){
             throw new IllegalArgumentException("No game has Been Recorded");
         }
+        replayingGame = true;
         gui.bottomPanel.recordCheckbox.setSelected(false); //so it doesnt try record ing itself
         int recordedTurns= recordedGame.replayMoves.size();
 
@@ -243,9 +252,11 @@ public class sosGameController {
 
         redPlayer = recordedGame.redPlayerLetter;
         redComputerSelected = recordedGame.redPlayerComputer;
+        redComputerSelected=false;
 
         bluePlayer = recordedGame.bluePlayerLetter;
         blueComputerSelected = recordedGame.bluePLayerComputer;
+        blueComputerSelected=false;
 
 
        
@@ -254,6 +265,11 @@ public class sosGameController {
 
         this.gui.boardPanel = new BoardPanel(boardSize);
         this.gui.boardPanel.setPreferredSize(new Dimension(500,500));
+        this.gui.boardSizeLimiter.add(this.gui.boardPanel);
+        this.gui.revalidate();
+        this.gui.repaint();
+        
+
 
         if(recordedGame.gameMode.equals("Simple")){
             gameModel = new sosSimpleGame(boardSize,this.gui.boardPanel.boardButtons, redPlayer, bluePlayer, gui);
@@ -263,22 +279,22 @@ public class sosGameController {
         }
 
         
-
+        gameState = "";
         this.gui.leftPanel.setScore(0);
         this.gui.rightPanel.setScore(0);
 
         gui.turn=0;
 
-        //initBoardListeners(boardSize);
+        initBoardListeners(boardSize);
 
         for (int i=0; i<recordedTurns;i++){
             replayNode move = recordedGame.replayMoves.get(i);
             JButton cell = gui.boardPanel.boardButtons[move.row][move.col];
             makeMove(cell,move.row,move.col);
-            Thread.sleep(500);//just so you can see the moves being put on the board
+            //Thread.sleep(100);//just so you can see the moves being put on the board
             this.gui.revalidate();
             this.gui.repaint();
-                
+            //endCheck();
             
         }
 
