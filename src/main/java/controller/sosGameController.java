@@ -1,12 +1,14 @@
 package controller;
 
 import javax.swing.*;
+
 import model.*;
 
 
 import view.*;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class sosGameController {
     private GUI gui;
@@ -35,16 +37,23 @@ public class sosGameController {
     private replayModel recordedGame;
 
     boolean replayingGame;
+
     
     public sosGameController(GUI gui) {
         this.gui = gui;
-        this.gui.topPanel.newGameButton.addActionListener(e -> newGame());
+        this.gui.topPanel.newGameButton.addActionListener(e -> {
+            try {
+                newGame();
+            } catch (IOException ex) {
+            }
+        });
         this.gui.bottomPanel.replayButton.addActionListener(e -> {
             try {
                 replayGame();
             } catch (InterruptedException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
+            } catch (IOException ex) {
             }
         });
         
@@ -52,11 +61,11 @@ public class sosGameController {
         redPlayer = "S";
         bluePlayer = "O";
         gameModel = new sosSimpleGame(3,this.gui.boardPanel.boardButtons, redPlayer, bluePlayer, gui);
-        
+        recordedGame = new replayModel(gameMode, boardSize, redComputerSelected, redPlayer, blueComputerSelected, bluePlayer);
         
     }
 
-    private void newGame() {
+    private void newGame() throws IOException {
         if (this.gui.leftPanel.sButton.isSelected() == this.gui.rightPanel.sButton.isSelected()) {
             throw new IllegalArgumentException("Players cant both be S or O at same time");
         }
@@ -144,7 +153,7 @@ public class sosGameController {
         }
     }
     
-    private void makeMove(JButton cell,int row,int col) {
+    private void makeMove(JButton cell,int row,int col) throws IOException {
         if(!(gameState.equals(""))) {return;}
 
        
@@ -166,6 +175,8 @@ public class sosGameController {
             cell.setText(bluePlayer);
             cell.setForeground(Color.BLUE);
         }
+        this.gui.revalidate();
+        this.gui.repaint();
         oldRedScore = gameModel.getRedScore();
         oldBlueScore = gameModel.getBlueScore();
 
@@ -239,24 +250,63 @@ public class sosGameController {
 
         
     }
-    private void replayGame() throws InterruptedException{
+    private void replayGame() throws InterruptedException, IOException{
         
-        if(recordedGame.fullGameRecorded==false){
-            throw new IllegalArgumentException("No game has Been Recorded");
+        if(recordedGame.fullGameRecorded==false||recordedGame==null){
+            return;
+            //throw new IllegalArgumentException("No game has Been Recorded");
         }
-        replayingGame = true;
-        gui.bottomPanel.recordCheckbox.setSelected(false); //so it doesnt try record ing itself
+        
+        replayingGame = true;//prevents it from recording stuff during replay mode
+       // gui.bottomPanel.recordCheckbox.setSelected(false); //so it doesnt try record ing itself
+
+
         int recordedTurns= recordedGame.replayMoves.size();
+       
 
         boardSize = recordedGame.boardSize;
 
+        //these settings are important, since they matter to how the game was set up and the game setting might have changed since recording
         redPlayer = recordedGame.redPlayerLetter;
         redComputerSelected = recordedGame.redPlayerComputer;
-        redComputerSelected=false;
-
+        
         bluePlayer = recordedGame.bluePlayerLetter;
         blueComputerSelected = recordedGame.bluePLayerComputer;
-        blueComputerSelected=false;
+       
+
+        gui.topPanel.boardSizeField.setText(Integer.toString(boardSize));
+
+        if(redPlayer.equals("S")){
+            gui.leftPanel.sButton.setSelected(true);
+            gui.rightPanel.oButton.setSelected(true);
+        }
+        else{
+            gui.leftPanel.oButton.setSelected(true);
+            gui.rightPanel.sButton.setSelected(true);
+        }
+        if(recordedGame.gameMode.equals("Simple")){
+            gui.topPanel.simpleButton.setSelected(true);
+        }
+        else{
+            gui.topPanel.generalButton.setSelected(true);
+        }
+
+
+        //these buttons kinda dont matter, but I recorded it anyways
+
+        if(blueComputerSelected){
+            gui.leftPanel.humanButton.setSelected(true);
+        }
+        else{
+            gui.leftPanel.computerButton.setSelected(true);
+        }
+        if(redComputerSelected){
+            gui.rightPanel.humanButton.setSelected(true);
+        }
+        else{
+            gui.rightPanel.computerButton.setSelected(true);
+        }
+
 
 
        
@@ -291,9 +341,10 @@ public class sosGameController {
             replayNode move = recordedGame.replayMoves.get(i);
             JButton cell = gui.boardPanel.boardButtons[move.row][move.col];
             makeMove(cell,move.row,move.col);
-            //Thread.sleep(100);//just so you can see the moves being put on the board
+            
             this.gui.revalidate();
             this.gui.repaint();
+            Thread.sleep(300);//just so you can see the moves being put on the board
             //endCheck();
             
         }
@@ -307,23 +358,31 @@ public class sosGameController {
             for (int col = 0; col < size; col++) {
                 final int r = row;
                 final int c = col;
-                this.gui.boardPanel.boardButtons[row][col].addActionListener(e -> makeMove(this.gui.boardPanel.boardButtons[r][c],r,c));
+                this.gui.boardPanel.boardButtons[row][col].addActionListener(e -> {
+                    try {
+                        makeMove(this.gui.boardPanel.boardButtons[r][c],r,c);
+                    } catch (IOException ex) {
+                    }
+                });
             }
         }
     }
-    private void endCheck() {
+    private void endCheck() throws IOException {
         
         if (gameState.equals("r")) {
             gui.displayWinner("Red");
             recordedGame.fullGameRecorded=true;
+           // recordedGame.saveGametoFile();
         } 
         else if (gameState.equals("b")) {
             gui.displayWinner("Blue");
             recordedGame.fullGameRecorded=true;
+           // recordedGame.saveGametoFile();
         } 
         else if (gameState.equals("d")) {
             gui.displayDraw();
             recordedGame.fullGameRecorded=true;
+            //recordedGame.saveGametoFile();
         }
         
     }

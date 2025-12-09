@@ -1,8 +1,12 @@
 package model;
 
 
+import java.io.*;
+
 import java.util.ArrayList;
+
 import model.replayNode;
+
 public class replayModel {
     
     public String gameMode;
@@ -17,8 +21,13 @@ public class replayModel {
 
     public boolean fullGameRecorded=false;
 
+    String fileName="recordedGame.txt";
+
+    File file;
+
 
     public replayModel(String gameMode, int boardSize, boolean redPlayerComputer, String redPlayerLetter,boolean bluePLayerComputer, String bluePlayerLetter) {
+        
         this.gameMode = gameMode;
         this.boardSize = boardSize;
 
@@ -34,6 +43,19 @@ public class replayModel {
     public void recordMove(int row, int col) {
         replayNode move = new replayNode(row, col);
         replayMoves.add(move);
+    }
+
+    public void saveGametoFile() throws IOException {
+        PrintWriter writer= new PrintWriter(new FileWriter(fileName,false));
+        writer.println(gameMode+","+boardSize+","+redPlayerComputer+","+redPlayerLetter+","+bluePLayerComputer+","+bluePlayerLetter);
+        writer.close();
+        file = new File(fileName);
+
+
+        for (int i=0;i<replayMoves.size();i++) {
+            replayNode move = replayMoves.get(i);
+            
+        }
     }
 
     /*  public void recordMove(int row, int col, String letter) {
